@@ -1,4 +1,4 @@
-package io.github.hexsmith.pigeon.controller;
+package io.github.hexsmith.pigeon.home.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

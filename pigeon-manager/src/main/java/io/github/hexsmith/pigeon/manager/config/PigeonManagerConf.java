@@ -1,8 +1,9 @@
 package io.github.hexsmith.pigeon.manager.config;
 
-import io.github.hexsmith.pigeon.dal.config.PigeonDalConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import io.github.hexsmith.pigeon.dal.config.PigeonDalConfig;
 
 /**
  * @author hexsmith

@@ -1,9 +1,10 @@
-package io.github.hexsmith.pigeon;
+package io.github.hexsmith.pigeon.home;
 
-import io.github.hexsmith.pigeon.manager.config.PigeonManagerConf;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+
+import io.github.hexsmith.pigeon.manager.config.PigeonManagerConf;
 
 /**
  * @author hexsmith
@@ -13,9 +14,7 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @Import(PigeonManagerConf.class)
 public class PigeonApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(PigeonApplication.class, args);
     }
-
 }

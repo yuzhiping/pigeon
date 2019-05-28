@@ -38,9 +38,14 @@
                                 <div class="card-wrapper clearfix" v-for="(item, index) in projectsList" :key="index">
                                     <el-card class="box-card">
                                         <div slot="header" class="clearfix">
-                                            <el-button type="text" @click="editTeam(item.groupNo)" v-if="[-1, 1, 2].includes(item.roleType)">编辑</el-button>
+                                            <el-button type="text" @click="editTeam(item.groupNo)"
+                                                       v-if="[-1, 1, 2].includes(item.roleType)">编辑
+                                            </el-button>
                                             <el-button type="text" @click="deleteTeam(item.groupNo)">删除</el-button>
-                                            <el-button type="text" @click="changeFocusStatus(item.groupNo, item.userFollow)">{{item.userFollow ? "已关注" : "关注"}}</el-button>
+                                            <el-button type="text"
+                                                       @click="changeFocusStatus(item.groupNo, item.userFollow)">
+                                                {{item.userFollow ? "已关注" : "关注"}}
+                                            </el-button>
                                         </div>
                                         <div @click="goDetail(item.groupNo)">
                                             <p>{{item.groupName}}</p>
@@ -58,7 +63,7 @@
             </el-container>
         </el-container>
     </el-container>
-	<div class="add-team">
+    <div class="add-team">
         <el-dialog title="添加/编辑团队" :visible.sync="dialogTeamVisible" @close="cleanTeam">
             <el-form :model="team">
                 <el-form-item label="名称" :label-width="formLabelWidth">
@@ -72,17 +77,17 @@
                 <el-button type="primary" @click="saveTeam">保存</el-button>
             </div>
         </el-dialog>
-	</div>
+    </div>
 </div>
 <script>
     var app = new Vue({
         el: '#app',
-        data: function() {
+        data: function () {
             return {
                 message: 'hi',
                 num: 10,
                 activeGroupName: 'first',
-	            projectsList: [],
+                projectsList: [],
                 formLabelWidth: '120px',
                 dialogTeamVisible: false,
                 team: {
@@ -90,31 +95,31 @@
                     name: '',
                     desc: ''
                 },
-	            // true代表可上拉加载
+                // true代表可上拉加载
                 pullRefreshss: true,
-	            pageNumber: 1,
-	            scrollY: null,
+                pageNumber: 1,
+                scrollY: null,
                 totalCount: 1,
-	            totalPages: 1,
+                totalPages: 1,
                 loadEnd: false,
                 groupRoleItems: []
             }
         },
-        created: function() {
+        created: function () {
             this.pullRefresh();
         },
-	    mounted: function() {
-            var self = this
-            if(sessionStorage.getItem("activeGroupName")) {
+        mounted: function () {
+            var self = this;
+            if (sessionStorage.getItem("activeGroupName")) {
                 self.activeGroupName = sessionStorage.getItem("activeGroupName")
             }
             self.getGroup()
-	    },
+        },
         methods: {
-            handleClick: function(tab, event) {
-                this.activeGroupName = tab.name
-                sessionStorage.setItem("activeGroupName", this.activeGroupName)
-	            this.getGroup()
+            handleClick: function (tab, event) {
+                this.activeGroupName = tab.name;
+                sessionStorage.setItem("activeGroupName", this.activeGroupName);
+                this.getGroup()
             },
             // 跳转到详情页
             goDetail: function (groupNo) {
@@ -122,14 +127,14 @@
             },
             // 编辑团队
             editTeam: function (groupNo) {
-                var self = this
+                var self = this;
                 $.ajax({
                     url: "/rest/group/getgroupbyno?groupNo=" + groupNo,
                     success: function (data) {
                         if (data.code === "0" && data.data) {
-                            self.team.no = data.data.groupNo
-                            self.team.name = data.data.groupName
-                            self.team.desc = data.data.groupDesc
+                            self.team.no = data.data.groupNo;
+                            self.team.name = data.data.groupName;
+                            self.team.desc = data.data.groupDesc;
                             self.dialogTeamVisible = true
                         } else {
                             self.$message.error(data.message)
@@ -139,16 +144,16 @@
             },
             // 添加团队
             saveTeam: function () {
-                var self = this
+                var self = this;
                 if (!self.team.name) {
-                    self.$message.error("团队名称为必填项")
+                    self.$message.error("团队名称为必填项");
                     return
                 }
                 var postData = {
                     groupName: self.team.name,
                     groupDesc: self.team.desc,
                     groupNo: self.team.no
-                }
+                };
                 $.ajax({
                     type: "post",
                     contentType: "application/json",
@@ -161,7 +166,7 @@
                             } else {
                                 self.$message.success("添加成功!")
                             }
-                            self.getGroup()
+                            self.getGroup();
                             self.dialogTeamVisible = false
                         } else {
                             self.$message.error(data.message)
@@ -175,7 +180,7 @@
             },
             // 删除团队
             deleteTeam: function (groupNo) {
-                var self = this
+                var self = this;
                 $.ajax({
                     url: "/rest/group/deletegroup?groupNo=" + groupNo,
                     success: function (data) {
@@ -188,10 +193,10 @@
                     }
                 })
             },
-	        // 关注/取消关注团队
+            // 关注/取消关注团队
             changeFocusStatus: function (groupNo, userFollow) {
-                var self = this
-	            if (!userFollow) {
+                var self = this;
+                if (!userFollow) {
                     $.ajax({
                         url: "/rest/follow/follow?groupNo=" + groupNo,
                         success: function (data) {
@@ -203,7 +208,7 @@
                             self.getGroup()
                         }
                     })
-	            } else {
+                } else {
                     $.ajax({
                         url: "/rest/follow/cancelfollow?groupNo=" + groupNo,
                         success: function (data) {
@@ -215,41 +220,41 @@
                             self.getGroup()
                         }
                     })
-	            }
+                }
             },
             // 请求团队列表
             getGroup: function (more) {
-                var self = this
-	            var allUrl = "/rest/group/pagegroup"
-	            var followUrl = "/rest/follow/userfollows"
+                var self = this;
+                var allUrl = "/rest/group/pagegroup";
+                var followUrl = "/rest/follow/userfollows";
                 if (!more) {
-                    self.projectsList = []
-                    self.pageNumber = 1
-                    self.totalPages = 1
+                    self.projectsList = [];
+                    self.pageNumber = 1;
+                    self.totalPages = 1;
                     self.loadEnd = false
                 }
                 if (!self.pullRefreshss || self.loadEnd) {
                     return
                 }
-                self.pullRefreshss = false
+                self.pullRefreshss = false;
                 var postData = {
                     pageNumber: self.pageNumber,
-	                pageSize: 12
-                }
+                    pageSize: 12
+                };
                 $.ajax({
                     type: "post",
                     contentType: "application/json",
                     url: (self.activeGroupName === "second") ? allUrl : followUrl,
                     data: JSON.stringify(postData),
                     success: function (data) {
-                        self.pullRefreshss = true
+                        self.pullRefreshss = true;
                         if (data.code === "0" && data.data) {
-                            self.totalCount = data.data.totalCount
+                            self.totalCount = data.data.totalCount;
                             if (self.pageNumber === data.data.totalPages) {
                                 self.loadEnd = true
                             }
-                            self.projectsList = self.projectsList.concat(data.data.results)
-	                        self.pageNumber++
+                            self.projectsList = self.projectsList.concat(data.data.results);
+                            self.pageNumber++
                         } else {
                             self.$message.error(data.message)
                         }
@@ -301,7 +306,7 @@
                 }
             },
             scrollChange: function () {
-                var _this = this
+                var _this = this;
                 this.scollY = this.getScrollTop() + this.getWindowHeight() - this.getScrollHeight();
                 // 把下拉刷新置为false，防止多次请求
                 if (this.scollY >= -50) {
@@ -309,7 +314,7 @@
                         return false;
                     }
                     // 模拟ajax请求
-                    setTimeout(_this.getGroup(true), 2000)
+                    setTimeout(_this.getGroup(true), 2000);
                     _this.pullRefreshss = false;
                 } else {
                     // 其他时候把下拉刷新置为true

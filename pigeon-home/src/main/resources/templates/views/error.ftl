@@ -1,10 +1,10 @@
 <h3>出错了！</h3>
 <script type="text/javascript">
-    var msg='${errorMessage}';
+    var msg = '${errorMessage}';
     $(function () {
-        if(''==msg){
+        if ('' == msg) {
             $.ligerDialog.error("出错了");
-        }else{
+        } else {
             $.ligerDialog.error(msg);
         }
     });

@@ -4,6 +4,7 @@
     display: table;
     content: "";
 }
+
 .clearfix:after {
     clear: both;
 }

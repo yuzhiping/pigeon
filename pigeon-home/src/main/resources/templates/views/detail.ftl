@@ -26,33 +26,39 @@
         <el-tabs v-model="activeName" @tab-click="handleTabClick">
             <el-tab-pane label="任务列表" name="first"></el-tab-pane>
             <el-tab-pane label="成员管理" name="second"></el-tab-pane>
-			<div class="team-list" v-if="activeName === 'first'">
-                <el-button style="padding: 8px 20px;margin-bottom: 10px;" @click="dialogTaskVisible = true">新增</el-button>
+            <div class="team-list" v-if="activeName === 'first'">
+                <el-button style="padding: 8px 20px;margin-bottom: 10px;" @click="dialogTaskVisible = true">新增
+                </el-button>
                 <el-table :data="taskList" :key="1" border style="width: 100%">
                     <el-table-column prop="jobName" label="任务名称"></el-table-column>
                     <el-table-column prop="jobDesc" label="任务描述"></el-table-column>
                     <el-table-column prop="invokeType" label="调用类型" :formatter="formatterInvokeType"></el-table-column>
                     <el-table-column prop="cronExpression" label="定时时间"></el-table-column>
-                    <el-table-column prop="lastExecuteResult" :formatter="formatterExecuteResult" label="上次执行结果"></el-table-column>
+                    <el-table-column prop="lastExecuteResult" :formatter="formatterExecuteResult"
+                                     label="上次执行结果"></el-table-column>
                     <el-table-column prop="lastExecuteTime" :formatter="formatterTime" label="上次执行时间"></el-table-column>
                     <el-table-column prop="nextExecuteTime" :formatter="formatterTime" label="下次执行时间"></el-table-column>
                     <el-table-column label="操作" width="260px">
                         <template slot-scope="scope">
                             <el-button @click="editTask(scope.$index)" type="text" size="small">编辑</el-button>
                             <el-button @click="deleteTask(scope.$index)" type="text" size="small">删除</el-button>
-                            <el-button @click="openTip(scope.$index)" type="text" size="small">{{taskList[scope.$index].jobStatus ? "停止" : "启动"}}</el-button>
+                            <el-button @click="openTip(scope.$index)" type="text" size="small">
+                                {{taskList[scope.$index].jobStatus ? "停止" : "启动"}}
+                            </el-button>
                             <el-button @click="doTask(scope.$index)" type="text" size="small">执行</el-button>
-                            <el-button type="text" size="small" @click="goLog(taskList[scope.$index].jobNo)">执行记录</el-button>
+                            <el-button type="text" size="small" @click="goLog(taskList[scope.$index].jobNo)">执行记录
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
                 <div class="pagination" style="text-align: center; margin-top: 10px;">
-                    <el-pagination @size-change="handleSizeChange" :current-page.sync="currentPageTask" @current-change="handleTaskCurrentChange"
+                    <el-pagination @size-change="handleSizeChange" :current-page.sync="currentPageTask"
+                                   @current-change="handleTaskCurrentChange"
                                    :page-size="pageSize" layout="total, prev, pager, next" :total="totalTask">
                     </el-pagination>
                 </div>
-			</div>
-	        <div class="member-manager" v-else>
+            </div>
+            <div class="member-manager" v-else>
                 <el-button style="padding: 8px 20px;margin-bottom: 10px;" @click="editMember">新增</el-button>
                 <el-table :data="memberList" :key="2" border style="width: 100%">
                     <el-table-column prop="userName" label="姓名"></el-table-column>
@@ -60,17 +66,22 @@
                     <el-table-column prop="roleText" label="角色"></el-table-column>
                     <el-table-column label="操作" width="280px">
                         <template slot-scope="scope">
-                            <el-button @click="editMember(memberList[scope.$index].userNo)" type="text" size="small">编辑</el-button>
-                            <el-button @click="deleteMember(memberList[scope.$index].userNo)" type="text" size="small">删除</el-button>
+                            <el-button @click="editMember(memberList[scope.$index].userNo)" type="text" size="small">
+                                编辑
+                            </el-button>
+                            <el-button @click="deleteMember(memberList[scope.$index].userNo)" type="text" size="small">
+                                删除
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
                 <div class="pagination" style="text-align: center; margin-top: 10px;">
-                    <el-pagination @size-change="handleSizeChange" @current-change="handleMemberCurrentChange" :current-page.sync="currentPageMember"
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleMemberCurrentChange"
+                                   :current-page.sync="currentPageMember"
                                    :page-size="pageSize" layout="total, prev, pager, next" :total="totalMember">
                     </el-pagination>
                 </div>
-	        </div>
+            </div>
         </el-tabs>
     </div>
     <div class="add-task">
@@ -104,14 +115,18 @@
                 </el-form-item>
                 <el-form-item label="参数" :label-width="formLabelWidth">
                     <el-button size="small" @click="addParams">添加</el-button>
-                        <div v-for="(item, index) in task.jobParams" :key="index" v-if="task.hasParam">
-                            <el-select size="small" v-model="item.paramType" placeholder="请选择参数类型" style="max-width: 200px">
-                                <el-option v-for="(item, index) in typeList" :key="index" :label="item.typeText" :value="item.typeValue"></el-option>
-                            </el-select>
-                            <el-input size="small" placeholder="请输入参数名" v-model="item.paramName" style="max-width: 200px"></el-input>
-                            <el-input size="small"  v-model="item.paramValue" placeholder="请输入参数的值" style="max-width: 200px"></el-input>
-                            <i class="el-icon-delete" style="cursor: pointer;" size="small" @click="deleteParams(index)"></i>
-                        </div>
+                    <div v-for="(item, index) in task.jobParams" :key="index" v-if="task.hasParam">
+                        <el-select size="small" v-model="item.paramType" placeholder="请选择参数类型" style="max-width: 200px">
+                            <el-option v-for="(item, index) in typeList" :key="index" :label="item.typeText"
+                                       :value="item.typeValue"></el-option>
+                        </el-select>
+                        <el-input size="small" placeholder="请输入参数名" v-model="item.paramName"
+                                  style="max-width: 200px"></el-input>
+                        <el-input size="small" v-model="item.paramValue" placeholder="请输入参数的值"
+                                  style="max-width: 200px"></el-input>
+                        <i class="el-icon-delete" style="cursor: pointer;" size="small"
+                           @click="deleteParams(index)"></i>
+                    </div>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -150,7 +165,7 @@
 <script>
     var app = new Vue({
         el: '#app',
-        data: function() {
+        data: function () {
             return {
                 activeName: 'first',
                 formLabelWidth: '120px',
@@ -160,7 +175,7 @@
                 memberList: [],
                 task: {
                     invokeType: "1",
-	                jobParams: [],
+                    jobParams: [],
                     statisticalPeriod: "1"
                 },
                 // 参数类型列表
@@ -168,26 +183,26 @@
                 member: {
                     role: '3'
                 },
-	            pageSize: 5,
+                pageSize: 5,
                 currentPageTask: 1,
-	            currentPageMember: 1,
+                currentPageMember: 1,
                 pageNum: 1,
                 requestLock: false,
                 totalTask: 0,
                 totalMember: 0,
                 jobParams: [],
                 userNo: "${userNo}",
-	            isAdd: false,
+                isAdd: false,
                 dialogTipVisible: false,
-	            tipIndex: -99,
-	            tipStatus: -99,
-	            // root -1, 管理员 1, 开发者 2
+                tipIndex: -99,
+                tipStatus: -99,
+                // root -1, 管理员 1, 开发者 2
                 roleType: 0
             }
         },
-        mounted: function() {
+        mounted: function () {
             var self = this;
-            if(sessionStorage.getItem("activeName")) {
+            if (sessionStorage.getItem("activeName")) {
                 this.activeName = sessionStorage.getItem("activeName")
             }
             $.ajax({
@@ -219,19 +234,19 @@
         },
         methods: {
             // 返回首页
-            backHome: function() {
-	            location.href = '/'
+            backHome: function () {
+                location.href = '/'
             },
-	        // 切换tab
-            handleTabClick: function(tab, event) {
+            // 切换tab
+            handleTabClick: function (tab, event) {
                 this.activeName = tab.name;
                 sessionStorage.setItem("activeName", this.activeName);
                 this.getList(1, true)
             },
-	        // 跳转到执行记录页
-	        goLog: function (jobNo) {
+            // 跳转到执行记录页
+            goLog: function (jobNo) {
                 location.href = "/joblog?jobNo=" + jobNo
-	        },
+            },
             // 获取列表 index为页码数  tab为是否是tab切换
             getList: function (index, tab) {
                 var self = this;
@@ -273,20 +288,17 @@
                     }
                 })
             },
-			// 保存(新增/修改)任务
+            // 保存(新增/修改)任务
             saveTask: function () {
-	            var self = this;
+                var self = this;
                 var task = self.task;
-	            if (task.jobName === "") {
+                if (task.jobName === "") {
                     self.$message.warning("名称为必填项")
-	            }
-                else if (task.jobDesc === "") {
+                } else if (task.jobDesc === "") {
                     self.$message.warning("任务描述为必填项")
-                }
-                else if (task.cronExpression === "") {
+                } else if (task.cronExpression === "") {
                     self.$message.warning("定时为必填项")
-                }
-                else if (task.statisticalPeriod === "") {
+                } else if (task.statisticalPeriod === "") {
                     self.$message.warning("统计周期为必填项")
                 }
                 if (task.jobParams && task.jobParams.length) {
@@ -310,64 +322,64 @@
                 $.ajax({
                     type: "post",
                     url: "/rest/job/addupdatejobinfo",
-	                contentType: "application/json",
-	                data: JSON.stringify(postData),
+                    contentType: "application/json",
+                    data: JSON.stringify(postData),
                     success: function (data) {
-	                    if(data.code === "0") {
-	                        if (self.task.jobNo) {
+                        if (data.code === "0") {
+                            if (self.task.jobNo) {
                                 self.$message.success("修改成功")
-	                        } else {
+                            } else {
                                 self.$message.success("新增成功")
-	                        }
-	                        self.getList(self.activeName === "first" ? self.currentPageTask : self.currentPageMember);
+                            }
+                            self.getList(self.activeName === "first" ? self.currentPageTask : self.currentPageMember);
                             self.dialogTaskVisible = false
-	                    } else {
+                        } else {
                             self.$message.error(data.message)
-	                    }
+                        }
 
                     }
                 })
             },
-	        // 清除任务弹窗中的数据
-	        cleanTask: function () {
+            // 清除任务弹窗中的数据
+            cleanTask: function () {
                 this.task = cleanParams(this.task);
-		        this.task.invokeType = "1";
+                this.task.invokeType = "1";
                 this.task.statisticalPeriod = "1"
-	        },
-	        // 编辑任务
-	        editTask: function (index) {
+            },
+            // 编辑任务
+            editTask: function (index) {
                 var self = this;
-		        if (![-1, 1, 2].includes(self.roleType)) {
+                if (![-1, 1, 2].includes(self.roleType)) {
                     self.$message.warning("您没有权限!");
-		            return
-		        }
+                    return
+                }
                 $.ajax({
                     url: "/rest/job/getjobinfobyno?jobNo=" + self.taskList[index].jobNo,
                     success: function (data) {
-                        if(data.code === "0" && data.data) {
+                        if (data.code === "0" && data.data) {
                             self.dialogTaskVisible = true;
                             self.task = data.data;
-	                        self.task.statisticalPeriod = self.task.statisticalPeriod + "";
+                            self.task.statisticalPeriod = self.task.statisticalPeriod + "";
                             self.task.invokeType = self.task.invokeType + ""
                         } else {
                             self.$message.error(data.message)
                         }
                     }
                 })
-	        },
-	        // 删除任务
+            },
+            // 删除任务
             deleteTask: function (index) {
                 var self = this;
                 if (![-1, 1, 2].includes(self.roleType)) {
                     self.$message.warning("您没有权限!");
                     return
                 }
-	            var groupNo = self.taskList[index].groupNo;
+                var groupNo = self.taskList[index].groupNo;
                 var jobNo = self.taskList[index].jobNo;
                 $.ajax({
                     url: "/rest/job/deljobbyno?groupNo=" + groupNo + "&jobNo=" + jobNo,
                     success: function (data) {
-                        if(data.code === "0") {
+                        if (data.code === "0") {
                             self.$message.success("删除成功!")
                         } else {
                             self.$message.error(data.message)
@@ -376,7 +388,7 @@
                     }
                 })
             },
-	        // 执行任务
+            // 执行任务
             doTask: function (index) {
                 var self = this;
                 if (![-1, 1, 2].includes(self.roleType)) {
@@ -387,7 +399,7 @@
                 $.ajax({
                     url: "/rest/job/execution?&jobNo=" + jobNo,
                     success: function (data) {
-                        if(data.code === "0") {
+                        if (data.code === "0") {
                             self.$message.success("执行成功!")
                         } else {
                             self.$message.error(data.message)
@@ -401,20 +413,20 @@
                     this.$message.warning("您没有权限!");
                     return
                 }
-				this.dialogTipVisible = true;
-	            this.tipIndex = index;
-	            this.tipStatus = this.taskList[this.tipIndex].jobStatus
+                this.dialogTipVisible = true;
+                this.tipIndex = index;
+                this.tipStatus = this.taskList[this.tipIndex].jobStatus
             },
-	        // 切换任务状态
+            // 切换任务状态
             switchTaskStatus: function () {
                 var self = this;
                 var jobNo = self.taskList[self.tipIndex].jobNo;
-	            // 1代表启动  要启动传1
+                // 1代表启动  要启动传1
                 var status = self.taskList[self.tipIndex].jobStatus === 1 ? 0 : 1;
                 $.ajax({
-                    url: "/rest/job/updatestatus?&jobNo=" + jobNo + "&jobStatus=" +status,
+                    url: "/rest/job/updatestatus?&jobNo=" + jobNo + "&jobStatus=" + status,
                     success: function (data) {
-                        if(data.code === "0") {
+                        if (data.code === "0") {
                             self.taskList[self.tipIndex].jobStatus = status
                         } else {
                             self.$message.error(data.message)
@@ -422,26 +434,26 @@
                         self.getList(self.activeName === "first" ? self.currentPageTask : self.currentPageMember);
                         self.dialogTipVisible = false
                     },
-	                error: function () {
+                    error: function () {
                         self.dialogTipVisible = false
                     }
                 })
             },
-	        // 添加参数
+            // 添加参数
             addParams: function () {
-	            this.task.jobParams.push({paramType:'', paramName: '', paramValue: ''});
+                this.task.jobParams.push({paramType: '', paramName: '', paramValue: ''});
                 this.task.hasParam = true
             },
-	        // 删除参数
+            // 删除参数
             deleteParams: function (index) {
                 var self = this;
-	            var paramNo = self.task.jobParams[index].paramNo;
+                var paramNo = self.task.jobParams[index].paramNo;
                 $.ajax({
                     url: "/rest/job/delbyparamno?&paramNo=" + paramNo,
                     success: function (data) {
-                        if(data.code === "0") {
+                        if (data.code === "0") {
                             self.task.jobParams.splice(index, 1);
-                            if(self.task.jobParams.length === 0) {
+                            if (self.task.jobParams.length === 0) {
                                 self.hasParam = false
                             }
                         } else {
@@ -450,35 +462,35 @@
                     }
                 })
             },
-	        // 编辑成员信息
+            // 编辑成员信息
             editMember: function (userNo) {
                 var self = this;
                 if (![-1, 1].includes(self.roleType)) {
                     self.$message.warning("您没有权限!");
                     return
                 }
-	            if (typeof userNo !== "string") {
-	                self.isAdd = true;
+                if (typeof userNo !== "string") {
+                    self.isAdd = true;
                     self.dialogMemberVisible = true;
-		            return
-	            }
-	            self.isAdd = false;
+                    return
+                }
+                self.isAdd = false;
                 $.ajax({
                     url: "/rest/member/getmemberbyno?groupNo=${groupNo}&userNo=" + userNo,
                     success: function (data) {
-                        if(data.code === "0" && data.data) {
+                        if (data.code === "0" && data.data) {
                             self.member = data.data;
-	                        switch (self.member.roleText) {
-		                        case "管理员":
+                            switch (self.member.roleText) {
+                                case "管理员":
                                     self.member.role = "1";
-			                        break;
+                                    break;
                                 case "开发者":
                                     self.member.role = "2";
                                     break;
                                 case "访客":
                                     self.member.role = "3";
                                     break;
-		                        default:
+                                default:
                                     self.member.role = "0"
                             }
                             self.dialogMemberVisible = true
@@ -491,11 +503,11 @@
             // 保存(新增/修改)成员
             saveMember: function () {
                 var self = this;
-	            var postData = {
+                var postData = {
                     groupNo: "${groupNo}",
-		            userNo: self.member.userNo,
-		            role: self.member.role
-	            };
+                    userNo: self.member.userNo,
+                    role: self.member.role
+                };
                 $.ajax({
                     type: "post",
                     contentType: "application/json",
@@ -516,7 +528,7 @@
                     }
                 })
             },
-	        // 删除成员
+            // 删除成员
             deleteMember: function (userNo) {
                 var self = this;
                 if (![-1, 1].includes(self.roleType)) {
@@ -535,7 +547,7 @@
                     }
                 })
             },
-	        // 清除弹窗中的数据
+            // 清除弹窗中的数据
             cleanMember: function () {
                 this.member = cleanParams(this.member)
             },
@@ -548,8 +560,8 @@
                 this.getList(val)
             },
             cleanTipIndex: function () {
-              this.tipIndex = -99;
-	          this.tipStatus = -99
+                this.tipIndex = -99;
+                this.tipStatus = -99
             },
             // 上次执行结果
             formatterExecuteResult: function (row, column, cellValue) {
@@ -565,12 +577,12 @@
                 }
                 var time = new Date(cellValue);
                 var y = time.getFullYear();
-                var m = time.getMonth()+1;
+                var m = time.getMonth() + 1;
                 var d = time.getDate();
                 var h = time.getHours();
                 var mm = time.getMinutes();
                 var s = time.getSeconds();
-                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+                return y + '-' + this.add0(m) + '-' + this.add0(d) + ' ' + this.add0(h) + ':' + this.add0(mm) + ':' + this.add0(s);
             },
             formatterInvokeType: function (row, column, cellValue) {
                 return cellValue === 1 ? "dubbo" : "http"

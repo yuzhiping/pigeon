@@ -1,10 +1,10 @@
 package io.github.hexsmith.pigeon.home;
 
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
+import io.github.hexsmith.pigeon.manager.config.PigeonManagerConf;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-
-import io.github.hexsmith.pigeon.manager.config.PigeonManagerConf;
 
 /**
  * @author hexsmith
@@ -13,6 +13,7 @@ import io.github.hexsmith.pigeon.manager.config.PigeonManagerConf;
  */
 @SpringBootApplication
 @Import(PigeonManagerConf.class)
+@NacosPropertySource(dataId = "pigeon", autoRefreshed = true)
 public class PigeonApplication {
     public static void main(String[] args) {
         SpringApplication.run(PigeonApplication.class, args);

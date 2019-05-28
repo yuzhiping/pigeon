@@ -8,4 +8,9 @@ package io.github.hexsmith.pigeon.manager.common.constants;
  * @since 2019-05-24 14:09
  */
 public class SystemConstant {
+
+    /**
+     * 心跳保活周期
+     */
+    public static final Integer HEARTBEAT_CYCLE = 5_000;
 }

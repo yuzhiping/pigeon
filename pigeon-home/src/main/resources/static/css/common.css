@@ -1,0 +1,15 @@
+/* 清除浮动 */
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* 解决页面闪烁 */
+[v-cloak] {
+    display: none;
+}

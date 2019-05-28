@@ -1,0 +1,43 @@
+/* 头部 */
+.header .right {
+    float: right;
+}
+
+/* 卡片 */
+.card-list {
+    padding: 10px 5px;
+}
+
+.card-wrapper {
+    float: left;
+    width: 25%;
+    box-sizing: border-box;
+    padding-right: 5px;
+    margin-bottom: 5px;
+}
+
+.box-card {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 173px;
+}
+
+.box-card .el-card__header {
+    height: 41px;
+    padding: 0px;
+}
+
+.box-card .el-card__header div {
+    float: right;
+    margin-right: 3px;
+}
+
+.box-card .el-card__body {
+    text-align: center;
+    cursor: pointer;
+}
+
+/* 执行记录页面表格 */
+.log-list td {
+    padding: 5px 0;
+}

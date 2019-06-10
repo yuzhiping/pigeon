@@ -1,5 +1,7 @@
 package io.github.hexsmith.pigeon.manager.node;
 
+import java.io.Serializable;
+
 /**
  * 节点信息
  *
@@ -7,7 +9,9 @@ package io.github.hexsmith.pigeon.manager.node;
  * @version v1.0
  * @since 2019-05-27 15:26
  */
-public class NodeInfo {
+public class NodeInfo implements Serializable {
+
+    private static final long serialVersionUID = -6508277647540486452L;
 
     /**
      * 数据中心
@@ -15,9 +19,19 @@ public class NodeInfo {
     private String idc;
 
     /**
-     * 节点IP
+     * 节点host
      */
-    private String ip;
+    private String host;
+
+    /**
+     * 端口
+     */
+    private Integer port;
+
+    /**
+     * 分组
+     */
+    private String group;
 
     /**
      * 节点名称
@@ -37,12 +51,28 @@ public class NodeInfo {
         this.idc = idc;
     }
 
-    public String getIp() {
-        return ip;
+    public String getHost() {
+        return host;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getNodeName() {

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ *
  * @author hexsmith
  * @version v1.0
  * @since 2019-05-27 15:53

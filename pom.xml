@@ -23,7 +23,8 @@
     <modules>
         <module>pigeon-manager</module>
         <module>pigeon-dal</module>
-        <module>pigeon-home</module>
+        <module>pigeon-console</module>
+        <module>pigeon-common</module>
     </modules>
 
     <dependencies>
@@ -31,7 +32,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.29</version>
+            <version>1.2.58</version>
         </dependency>
     </dependencies>
 
